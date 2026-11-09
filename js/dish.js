@@ -6,6 +6,7 @@
 (function () {
   'use strict';
   var LP = window.LP; if (!LP) return;
+  var VIDEOS = LP.VIDEOS || [];
   var MENU = LP.MENU, PHOTOS = LP.PHOTOS, FEATURED = LP.FEATURED;
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var money = function (n) { return '$' + Number(n).toLocaleString('en-US'); };
@@ -75,6 +76,13 @@
         '<div class="dv__stage">' +
           '<div class="dv__scene"><div class="dv__floor"></div><div class="dv__plate"><div class="dv__face"><div class="dv__media"></div><i class="dv__glare"></i></div></div></div>' +
           '<div class="dv__model" hidden></div>' +
+          '<div class="dv__player"><div class="dv__vwrap"><video playsinline preload="metadata" loop></video>' +
+            '<button class="dv__big" type="button" aria-label="Reproducir"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="#fff"/></svg></button>' +
+            '<div class="dv__ctl"><button class="dv__pp" type="button" aria-label="Pausar"><svg viewBox="0 0 24 24"></svg></button>' +
+              '<div class="dv__bar" role="slider" aria-label="Avance del video"><i></i></div>' +
+              '<button class="dv__mu" type="button" aria-label="Sonido"><svg viewBox="0 0 24 24"></svg></button>' +
+              '<button class="dv__fs" type="button" aria-label="Pantalla completa"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></div></div></div>' +
+          '<div class="dv__tabs" hidden><button type="button" data-m="video"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>Video</button><button type="button" data-m="plato">Plato</button></div>' +
           '<div class="dv__tools">' +
             '<span class="dv__hint"><b></b></span>' +
             '<button type="button" class="dv__zoom" aria-pressed="false"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5M11 8v6M8 11h6"/></svg><span>Ver de cerca</span></button>' +
@@ -96,8 +104,9 @@
     root._ = { scrim: q('.dv__scrim'), x: q('.dv__x'), plate: q('.dv__plate'), face: q('.dv__face'), media: q('.dv__media'),
       glare: q('.dv__glare'), stage: q('.dv__stage'), scene: q('.dv__scene'), model: q('.dv__model'), hint: q('.dv__hint b'),
       zoom: q('.dv__zoom'), prev: q('.dv__nav--p'), next: q('.dv__nav--n'), k: q('.dv__k'), t: q('.dv__t'),
-      items: q('.dv__items'), order: q('.dv__order'), count: q('.dv__count'), info: q('.dv__info') };
-    wire();
+      player: q('.dv__player'), vid: q('.dv__player video'), big: q('.dv__big'), pp: q('.dv__pp'), bar: q('.dv__bar'), mu: q('.dv__mu'), fs: q('.dv__fs'),
+      tabs: q('.dv__tabs'), items: q('.dv__items'), order: q('.dv__order'), count: q('.dv__count'), info: q('.dv__info') };
+    wire(); wirePlayer();
   }
 
   function head(url) {
@@ -107,7 +116,7 @@
     }).catch(function () { return false; });
   }
 
-  function show(i) {
+  function show(i, mode) {
     idx = (i + list.length) % list.length;
     var slug = list[idx], d = lookup(slug), r = root._;
     st.zoom = false; r.zoom.setAttribute('aria-pressed', 'false'); root.classList.remove('is-zoom');
@@ -127,14 +136,17 @@
     r.order._name = d.items.length === 1 ? d.items[0].n : d.title;
     r.order._full = d.title;
 
-    /* video / modelo 3D reales, si los subieron */
+    /* video real del plato */
     var token = ++modelState.t;
-    head('assets/videos/' + slug + '.mp4').then(function (ok) {
-      if (!ok || token !== modelState.t) return;
-      var v = document.createElement('video');
-      v.src = 'assets/videos/' + slug + '.mp4'; v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true;
-      v.setAttribute('playsinline', ''); r.media.appendChild(v); v.play().catch(function () {});
-    });
+    var vid = r.vid; vid.pause(); vid.removeAttribute('src'); vid.load();
+    r.tabs.hidden = true; root.classList.remove('is-video', 'dv--vid'); root._.mode = 'plato';
+    var setVideo = function () {
+      vid.poster = 'assets/img/' + slug + '.webp'; vid.src = 'assets/videos/' + slug + '.mp4';
+      r.tabs.hidden = false; root.classList.add('dv--vid');
+      setMode(mode === 'plato' ? 'plato' : 'video');
+    };
+    if (VIDEOS.indexOf(slug) > -1) setVideo();
+    else head('assets/videos/' + slug + '.mp4').then(function (ok) { if (ok && token === modelState.t) setVideo(); });
     head('assets/3d/' + slug + '.glb').then(function (ok) {
       if (!ok || token !== modelState.t) return;
       loadModelViewer().then(function () {
@@ -157,6 +169,50 @@
     return mvP;
   }
 
+  var ICO = {
+    play: '<path d="M8 5.5v13l11-6.5z" fill="#fff" stroke="none"/>',
+    pause: '<path d="M8 5v14M16 5v14" stroke-width="3"/>',
+    vol: '<path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z" fill="#fff"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/>',
+    mute: '<path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z" fill="#fff"/><path d="M16 9.5l5 5M21 9.5l-5 5"/>'
+  };
+  Object.keys(ICO).forEach(function (k) { ICO[k] = '<svg viewBox="0 0 24 24">' + ICO[k] + '</svg>'; });
+  function setMode(m) {
+    var r = root._, vid = r.vid;
+    root._.mode = m;
+    root.classList.toggle('is-video', m === 'video');
+    r.tabs.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.m === m); });
+    if (m === 'video') {
+      vid.currentTime = 0; vid.muted = false; r.mu.innerHTML = ICO.vol;
+      var pr = vid.play();
+      if (pr && pr.catch) pr.catch(function () { vid.muted = true; r.mu.innerHTML = ICO.mute; vid.play().catch(function () {}); });
+    } else { vid.pause(); }
+    syncPP();
+  }
+  function syncPP() {
+    var r = root._, playing = !r.vid.paused && !r.vid.ended;
+    r.pp.innerHTML = playing ? ICO.pause : ICO.play;
+    r.pp.setAttribute('aria-label', playing ? 'Pausar' : 'Reproducir');
+    root.classList.toggle('is-paused', !playing);
+  }
+  function wirePlayer() {
+    var r = root._, v = r.vid;
+    var toggle = function () { if (v.paused) v.play().catch(function () {}); else v.pause(); };
+    r.pp.addEventListener('click', toggle); r.big.addEventListener('click', toggle);
+    v.addEventListener('click', toggle);
+    v.addEventListener('play', syncPP); v.addEventListener('pause', syncPP); v.addEventListener('ended', syncPP);
+    v.addEventListener('timeupdate', function () { r.bar.firstChild.style.transform = 'scaleX(' + (v.duration ? v.currentTime / v.duration : 0) + ')'; });
+    r.mu.addEventListener('click', function () { v.muted = !v.muted; r.mu.innerHTML = v.muted ? ICO.mute : ICO.vol; });
+    r.bar.addEventListener('click', function (e) { var b = r.bar.getBoundingClientRect(); if (v.duration) v.currentTime = v.duration * Math.min(1, Math.max(0, (e.clientX - b.left) / b.width)); });
+    r.fs.addEventListener('click', function () {
+      var w = v.parentNode;
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (w.requestFullscreen) w.requestFullscreen().catch(function () {});
+      else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+    });
+    r.tabs.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) setMode(b.dataset.m); });
+    r.pp.innerHTML = ICO.play; r.mu.innerHTML = ICO.vol;
+  }
+
   /* ---------- plato 3D ---------- */
   function loop() {
     var r = root._;
@@ -173,8 +229,8 @@
     var r = root._;
     r.x.addEventListener('click', close);
     r.scrim.addEventListener('click', close);
-    r.prev.addEventListener('click', function () { show(idx - 1); });
-    r.next.addEventListener('click', function () { show(idx + 1); });
+    r.prev.addEventListener('click', function () { show(idx - 1, root._.mode); });
+    r.next.addEventListener('click', function () { show(idx + 1, root._.mode); });
     r.zoom.addEventListener('click', function () {
       st.zoom = !st.zoom; r.zoom.setAttribute('aria-pressed', st.zoom); root.classList.toggle('is-zoom', st.zoom);
       r.zoom.querySelector('span').textContent = st.zoom ? 'Ver completo' : 'Ver de cerca';
@@ -203,8 +259,8 @@
     document.addEventListener('keydown', function (e) {
       if (!root.classList.contains('is-open')) return;
       if (e.key === 'Escape') close();
-      else if (e.key === 'ArrowRight') show(idx + 1);
-      else if (e.key === 'ArrowLeft') show(idx - 1);
+      else if (e.key === 'ArrowRight') show(idx + 1, root._.mode);
+      else if (e.key === 'ArrowLeft') show(idx - 1, root._.mode);
     });
     /* giroscopio en el celular: inclinas el telefono y el plato se mueve */
     window.addEventListener('deviceorientation', function (e) {
@@ -222,12 +278,12 @@
     FEATURED.forEach(function (f) { if (!seen[f.slug]) { seen[f.slug] = 1; list.push(f.slug); } });
   }
 
-  function open(slug) {
+  function open(slug, mode) {
     if (!root) build();
     collect();
     var i = list.indexOf(slug); if (i < 0) { list.push(slug); i = list.length - 1; }
     lastFocus = document.activeElement;
-    show(i);
+    show(i, mode);
     root.classList.add('is-open'); root.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('dv-open');
     if (window.__lenis && window.__lenis.stop) window.__lenis.stop();
@@ -239,7 +295,7 @@
     root.classList.remove('is-open'); root.setAttribute('aria-hidden', 'true');
     document.documentElement.classList.remove('dv-open');
     cancelAnimationFrame(rafId);
-    var v = root.querySelector('video'); if (v) v.pause();
+    root._.vid.pause(); root._.vid.muted = true;
     if (window.__lenis && window.__lenis.start) window.__lenis.start();
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
@@ -247,6 +303,8 @@
   /* ---------- disparadores ---------- */
   document.addEventListener('click', function (e) {
     if (document.documentElement.classList.contains('dv-open')) return;
+    var vb = e.target.closest && e.target.closest('.vbtn');
+    if (vb) { e.preventDefault(); open(vb.getAttribute('data-slug'), 'video'); return; }
     var m = e.target.closest && e.target.closest('.media[data-slug], .card[data-i]');
     if (!m) return;
     var slug = m.getAttribute('data-slug');
@@ -262,6 +320,18 @@
       m.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(m.getAttribute('data-slug')); } });
     });
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', markA11y); else markA11y();
+  function videoButtons() {
+    VIDEOS.forEach(function (slug) {
+      var d = DISH[slug]; if (!d) return;
+      var cat = document.getElementById('cat-' + d[0]); if (!cat) return;
+      cat.querySelectorAll('.item').forEach(function (li) {
+        var h = li.querySelector('.item__name');
+        if (!h || h.textContent.trim() !== d[1][0] || li.querySelector('.vbtn')) return;
+        li.insertAdjacentHTML('beforeend', '<button class="vbtn" type="button" data-slug="' + slug + '"><i><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></i><span>Ver video del plato</span></button>');
+      });
+    });
+  }
+  function init() { markA11y(); videoButtons(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
   window.LPDish = { open: open, close: close };
 })();

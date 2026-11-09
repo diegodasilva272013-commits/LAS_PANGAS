@@ -48,6 +48,9 @@ window.LP = (() => {
     'clericot': 'Clericot'
   };
 
+  /* ---------- Platos con video (archivo assets/videos/<slug>.mp4) ---------- */
+  const VIDEOS = ['mini-tostadas-atun', 'pina-de-mariscos', 'taco-de-pulpo'];
+
   /* ---------- Los imprescindibles (carrusel con video) ---------- */
   const FEATURED = [
     { slug: 'torre-sinaloense', kicker: 'Torres', name: 'Torre Sinaloense', price: '$500',
@@ -317,5 +320,5 @@ window.LP = (() => {
     { n: '04', t: 'Pa’ los plebes', d: 'Menú infantil con nuggets, camarones empanizados y tiras de pescado.', img: 'plebes', pos: '20% 60%', to: '#cat-plebes' }
   ];
 
-  return { SITE, PHOTOS, FEATURED, MENU, DRINKS, MESA };
+  return { SITE, PHOTOS, VIDEOS, FEATURED, MENU, DRINKS, MESA };
 })();
