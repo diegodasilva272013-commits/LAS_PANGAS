@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Las Pangas · Cocina sinaloense</title>
+<meta name="description" content="Las Pangas, cocina sinaloense. Mira lo que trajo el mar: ceviches, aguachiles, tostadas, parrilladas al zarandeado y coctelería. Consulta la carta completa.">
+<meta name="theme-color" content="#031538">
+<meta property="og:title" content="Las Pangas · Cocina sinaloense">
+<meta property="og:description" content="Mira lo que trajo el mar. Puro marisco sabroso.">
+<meta property="og:image" content="assets/img/aguachile-mango-habanero.webp">
+<link rel="icon" type="image/png" href="assets/img/isotipo-blanco.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat+Brush&family=Marcellus&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+<a class="skip" href="#carta">Saltar a la carta</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><i class="cursor__dot"></i><span class="cursor__ring"><b></b></span></div>
+
+<div class="pre" id="pre" aria-hidden="true">
+  <div class="pre__half pre__half--t"></div><div class="pre__half pre__half--b"></div>
+  <div class="pre__center">
+    <div class="pre__mark"><img src="assets/img/isotipo-blanco.png" alt="" width="160" height="110"></div>
+    <div class="pre__count"><b id="preNum">0</b><span>%</span></div>
+    <p class="pre__brush brush">trayendo el mar…</p>
+  </div>
+</div>
+
+<!-- ============ NAV (isla de cristal, simétrica) ============ -->
+<header class="nav" id="nav">
+  <nav class="nav__side nav__side--l" aria-label="Principal izquierda">
+    <a href="#imprescindibles">Imprescindibles</a>
+    <a href="#carta">La carta</a>
+  </nav>
+  <a class="nav__brand" href="#top" aria-label="Las Pangas, inicio">
+    <img src="assets/img/isotipo-blanco.png" alt="" width="40" height="28">
+  </a>
+  <nav class="nav__side nav__side--r" aria-label="Principal derecha">
+    <a href="#bebidas">Bebidas</a>
+    <a href="#mesa">La mesa</a>
+  </nav>
+  <button class="nav__burger" id="burger" aria-label="Abrir menú" aria-expanded="false" aria-controls="sheet">
+    <span></span><span></span>
+  </button>
+</header>
+
+<div class="sheet" id="sheet" aria-hidden="true">
+  <nav class="sheet__nav">
+    <a href="#imprescindibles" style="--i:0">Imprescindibles</a>
+    <a href="#carta" style="--i:1">La carta</a>
+    <a href="#bebidas" style="--i:2">Bebidas</a>
+    <a href="#mesa" style="--i:3">La mesa</a>
+    <a href="#visitanos" style="--i:4">Visítanos</a>
+  </nav>
+  <p class="sheet__tag brush" style="--i:5">pa’ que se te antoje volver</p>
+</div>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" aria-labelledby="h1">
+  <canvas class="hero__gl" id="gl" aria-hidden="true"></canvas>
+  <div class="hero__velas" aria-hidden="true"></div>
+  <div class="hero__media media" data-slug="hero" aria-hidden="true"></div>
+  <div class="hero__shade" aria-hidden="true"></div>
+  <div class="hero__floats" id="floats" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <p class="eyebrow in-up" style="--d:.1s"><span>Cocina sinaloense</span><i></i><span>Carta 2026</span></p>
+    <img class="hero__logo in-up" style="--d:.25s" src="assets/img/logo-blanco.png" alt="Las Pangas, cocina sinaloense" width="2002" height="1005">
+    <h1 id="h1" class="hero__title">
+      <span class="mask"><span class="in-line" style="--d:.45s">Mira lo que</span></span>
+      <span class="mask"><span class="in-line" style="--d:.58s">trajo el <em>mar</em></span></span>
+    </h1>
+    <p class="hero__brush brush in-up" style="--d:.85s">¡puro marisco sabroso!</p>
+    <div class="hero__cta in-up" style="--d:1s">
+      <a class="btn btn--solid magnetic" href="#carta"><span>Ver la carta</span><i class="btn__dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+      <a class="btn btn--ghost magnetic" href="#imprescindibles"><span>Los imprescindibles</span><i class="btn__dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i></a>
+    </div>
+  </div>
+  <a class="hero__scroll" href="#reel" aria-label="Bajar"><i></i></a>
+</section>
+
+<!-- ============ MARQUESINA ============ -->
+<section class="mq" id="reel" aria-label="Ceviches, aguachiles, tostadas, parrilladas y más">
+  <div class="mq__row" id="mq1"></div>
+  <div class="mq__row" id="mq2"></div>
+</section>
+
+<!-- ============ DECLARACIÓN ============ -->
+<section class="statement" aria-labelledby="stmt">
+  <div class="wrap wrap--narrow">
+    <p class="pill reveal">La casa</p>
+    <p class="statement__text" id="stmt" data-words>Camarón, pulpo, atún y pescado fresco. Ceviches preparados al momento, aguachiles bañados en tu salsa favorita y parrilladas al zarandeado.</p>
+    <p class="statement__brush brush reveal">pa’ que se te antoje volver</p>
+  </div>
+</section>
+
+<!-- ============ SECCIÓN QUE SE EXPANDE ============ -->
+<section class="xp" id="xp" aria-labelledby="h-xp">
+  <div class="xp__frame">
+    <div class="media" data-slug="expand"><img src="assets/img/asador.webp" alt="Parrillada al zarandeado" loading="lazy" decoding="async"></div>
+    <div class="xp__shade"></div>
+  </div>
+  <div class="xp__text">
+    <h2 id="h-xp" class="xp__title"><span class="xl"><span>Preparado</span></span><span class="xl"><span>al momento</span></span></h2>
+    <p class="xp__brush brush">¡y bien sabroso!</p>
+  </div>
+</section>
+
+<!-- ============ OLAS ============ -->
+<div class="waves" id="waves" aria-hidden="true"></div>
+
+<!-- ============ NÚMEROS ============ -->
+<section class="stats" aria-label="La carta en números">
+  <div class="wrap">
+    <ul class="stats__grid">
+      <li class="reveal" style="--d:0s"><b data-count="10">0</b><span>tacos de mar</span></li>
+      <li class="reveal" style="--d:.08s"><b data-count="10">0</b><span>camarones, diez maneras</span></li>
+      <li class="reveal" style="--d:.16s"><b data-count="6">0</b><span>parrilladas al zarandeado</span></li>
+      <li class="reveal" style="--d:.24s"><b data-count="5">0</b><span>salsas para tu aguachile</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ IMPRESCINDIBLES ============ -->
+<section class="showcase" id="imprescindibles" aria-labelledby="h-show">
+  <header class="sec-head wrap">
+    <p class="pill reveal">Los imprescindibles</p>
+    <h2 id="h-show" class="display reveal" style="--d:.08s">Lo que <em>no</em> te<br>puedes perder</h2>
+    <p class="lead reveal" style="--d:.16s">Nueve platillos que ya son de la casa. Cada uno se ve —y se oye— mejor en movimiento.</p>
+  </header>
+  <div class="hstage" id="hstage">
+  <div class="rail" id="rail" tabindex="0" aria-label="Carrusel de platillos" role="region"></div>
+  <div class="rail__ctrl wrap">
+    <button class="circle" id="prev" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <span class="rail__count" id="railCount" aria-live="polite">01 / 09</span>
+    <button class="circle" id="next" aria-label="Siguiente"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <div class="rail__bar" aria-hidden="true"><i id="railBar"></i></div>
+  </div>
+  </div>
+</section>
+
+<!-- ============ LA CARTA ============ -->
+<section class="carta" id="carta" aria-labelledby="h-carta">
+  <div class="torn torn--top" data-torn="paper" aria-hidden="true"></div>
+  <header class="sec-head wrap carta__head">
+    <p class="pill pill--ink reveal">Carta 2026</p>
+    <h2 id="h-carta" class="display display--ink reveal" style="--d:.08s">La carta</h2>
+    <p class="lead lead--ink reveal" style="--d:.16s">Cocina sinaloense, completa. Elige una sección o recórrela de principio a fin.</p>
+  </header>
+  <div class="chips" id="chips" role="navigation" aria-label="Secciones de la carta">
+    <div class="chips__row" id="chipsRow"></div>
+  </div>
+  <div class="carta__body" id="cartaBody"></div>
+</section>
+
+<!-- ============ BEBIDAS ============ -->
+<section class="bebidas" id="bebidas" aria-labelledby="h-beb">
+  <div class="torn torn--top" data-torn="blue" aria-hidden="true"></div>
+  <header class="sec-head wrap">
+    <p class="pill reveal">Bebidas</p>
+    <h2 id="h-beb" class="display reveal" style="--d:.08s">Pa’ <em>brindar</em></h2>
+    <p class="lead reveal" style="--d:.16s">Chela fría, coctelería y destilados.</p>
+  </header>
+  <div class="wrap" id="drinksBody"></div>
+</section>
+
+<!-- ============ LA MESA ============ -->
+<section class="mesa" id="mesa" aria-labelledby="h-mesa">
+  <header class="sec-head wrap">
+    <p class="pill reveal">El servicio</p>
+    <h2 id="h-mesa" class="display reveal" style="--d:.08s">La <em>mesa</em></h2>
+    <p class="lead reveal" style="--d:.16s">Cuatro maneras de sentarte con nosotros.</p>
+  </header>
+  <div class="wrap"><div class="mesa__grid" id="mesaGrid"></div></div>
+</section>
+
+<!-- ============ CIERRE ============ -->
+<section class="closing" id="visitanos" aria-labelledby="h-close">
+  <div class="closing__velas" aria-hidden="true"></div>
+  <div class="closing__big" aria-hidden="true"><span>LAS PANGAS</span></div>
+  <div class="wrap wrap--narrow closing__inner">
+    <img class="closing__mark reveal" src="assets/img/isotipo-blanco.png" alt="" width="120" height="83">
+    <h2 id="h-close" class="display reveal" style="--d:.08s">Pa’ que se te<br>antoje <em>volver</em></h2>
+    <div class="closing__cta reveal" style="--d:.16s" id="contactCta"></div>
+    <ul class="contact reveal" style="--d:.24s" id="contactList"></ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <img src="assets/img/logo-blanco.png" alt="Las Pangas, cocina sinaloense" width="200" height="100">
+  <p>© 2026 Las Pangas · Cocina sinaloense</p>
+</footer>
+
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/vendor/SplitText.min.js"></script>
+<script src="assets/vendor/lenis.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/motion.js"></script>
+</body>
+</html>

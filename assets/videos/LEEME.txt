@@ -1,0 +1,28 @@
+VIDEOS DE LOS PLATOS — Las Pangas
+=================================
+Soltá acá los videos y la página los toma sola (sin tocar código).
+
+  Nombre del archivo = nombre de la foto del plato.
+  Formato: .mp4 (H.264) — opcionalmente también .webm
+
+  hero.mp4                       -> video de portada (pantalla completa)
+  torre-sinaloense.mp4
+  aguachile-mango-habanero.mp4
+  parrillada.mp4
+  pina-de-mariscos.mp4
+  mini-tostadas-atun.mp4
+  taco-de-pulpo.mp4
+  ceviche-mitotero.mp4
+  callo-de-hacha.mp4
+  mojarra.mp4
+  ... y cualquier otro nombre que figure en assets/img/ (ej: caldo-paisa.mp4, molcajete.mp4)
+
+Cada video aparece en el carrusel "Imprescindibles" Y en su sección de la carta.
+Se reproduce solo, mudo y en bucle cuando entra en pantalla; si el archivo no existe
+se ve la foto, así que podés ir subiendo de a uno.
+
+Recomendado: 1080 px de alto (vertical 3:4 o 4:5 queda perfecto en las tarjetas),
+5 a 8 segundos, sin audio, menos de 6 MB cada uno.
+
+Para previsualizar un video sin copiar archivos: abrí la web con  ?studio  al final
+(http://localhost:4173/index.html?studio) y usá el botón "+ Video" sobre cada foto.

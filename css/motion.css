@@ -1,0 +1,131 @@
+/* ============================================================
+   CAPA DE MOVIMIENTO (GSAP + Lenis + WebGL)
+   Se carga después de style.css y lo extiende.
+   ============================================================ */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+html.gsap{scroll-behavior:auto}
+html.gsap .in-line{transform:none;animation:none}
+html.gsap .nav{translate:none}
+html.gsap .hero__velas{animation:none}
+html.gsap .in-up{animation-play-state:paused}
+html.gsap.go .in-up{animation-play-state:running}
+html.gsap .card,html.gsap .pillar,html.gsap .tile{transition:none}
+html.gsap .pillar:hover{transform:none}
+.js .reveal.done{transition:none}
+[data-split]{text-wrap:initial}
+
+/* la declaracion la maneja GSAP palabra por palabra */
+.statement__text .w{animation:none!important;color:#fff;opacity:.13;will-change:opacity}
+.nogsap .statement__text .w{opacity:1}
+
+/* ---- barra de progreso ---- */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:110;background:var(--coral);transform:scaleX(0);transform-origin:0 50%;pointer-events:none}
+
+/* ---- pantalla de carga ---- */
+.pre{position:fixed;inset:0;z-index:400;display:none;color:#fff}
+.js .pre{display:block}
+.nogsap .pre{display:none}
+.pre__half{position:absolute;left:0;right:0;height:50.5%;background:var(--navy);will-change:transform;overflow:hidden}
+.pre__half--t{top:0}
+.pre__half--b{bottom:0}
+.pre__half::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 120% at 50% 100%,rgba(17,91,212,.5),transparent 70%)}
+.pre__half--b::after{background:radial-gradient(70% 120% at 50% 0,rgba(17,91,212,.5),transparent 70%)}
+.pre__center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;will-change:transform,opacity}
+.pre__mark{width:clamp(120px,16vw,170px);clip-path:inset(100% 0 0 0)}
+.pre__mark img{width:100%;height:auto}
+.pre__count{display:flex;align-items:baseline;gap:4px;font-family:var(--f-display);font-size:clamp(3rem,8vw,5rem);line-height:1;font-variant-numeric:tabular-nums}
+.pre__count span{font-size:.4em;color:var(--coral)}
+.pre__brush{font-size:1.6rem;opacity:0}
+
+/* ---- cursor ---- */
+.cursor{position:fixed;left:0;top:0;z-index:350;pointer-events:none;display:none}
+@media (hover:hover) and (pointer:fine){
+  html.gsap.cursor-on body,html.gsap.cursor-on a,html.gsap.cursor-on button,html.gsap.cursor-on .chip{cursor:none}
+  html.gsap.cursor-on .cursor{display:block}
+}
+.cursor__dot{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--coral)}
+.cursor__ring{position:absolute;left:-22px;top:-22px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.75);mix-blend-mode:difference;transition:width .5s var(--ease),height .5s var(--ease),left .5s var(--ease),top .5s var(--ease),background .5s var(--ease),box-shadow .5s var(--ease)}
+.cursor__ring b{font:700 11px/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:#fff;opacity:0;transition:opacity .4s var(--ease)}
+.cursor.is-hot .cursor__ring{left:-34px;top:-34px;width:68px;height:68px;background:rgba(255,255,255,.18)}
+.cursor.has-label .cursor__ring{left:-46px;top:-46px;width:92px;height:92px;background:#fff;box-shadow:none;mix-blend-mode:normal}
+.cursor.has-label .cursor__ring b{opacity:1;color:var(--navy)}
+.cursor.is-down .cursor__ring{transform:scale(.86)}
+
+/* ---- hero: agua (WebGL) y platos flotantes ---- */
+.hero__gl{position:absolute;inset:0;width:100%;height:100%;z-index:-4;display:block}
+.hero__velas{opacity:.22;mix-blend-mode:soft-light}
+.hero__floats{position:absolute;inset:0;z-index:1;pointer-events:none;perspective:1200px}
+.float{position:absolute;aspect-ratio:3/4;will-change:transform}
+.float__s{width:100%;height:100%;border-radius:28px;padding:5px;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22),0 50px 90px -34px rgba(0,8,30,.8);will-change:transform}
+.float .media{width:100%;height:100%;border-radius:23px}
+.hero:has(.hero__media.has-video) .hero__gl{opacity:0!important}
+.hero__inner{position:relative;z-index:2}
+.hero__title .xc{display:inline-block;will-change:transform}
+@media (max-width:900px){.hero__floats{display:none}}
+
+/* ---- marquesina con pastillas de foto ---- */
+.mq{position:relative;overflow:hidden;background:var(--navy);padding:clamp(40px,6vw,90px) 0;display:flex;flex-direction:column;gap:clamp(8px,1.4vw,20px)}
+.mq__row{display:flex;width:max-content;white-space:nowrap;will-change:transform;font-family:var(--f-display);font-size:clamp(4rem,12.5vw,12rem);line-height:1;text-transform:uppercase}
+.mq__set{display:flex;align-items:center;flex:none}
+.mq__w{padding:0 .16em;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.6);letter-spacing:.01em}
+.mq__w--f{color:var(--coral);-webkit-text-stroke:0}
+.mq__pill{flex:none;width:1.55em;height:.78em;margin:0 .12em;border-radius:999px;background-size:cover;background-position:center;box-shadow:inset 0 0 0 2px rgba(255,255,255,.2)}
+.mq__dot{flex:none;width:.14em;height:.14em;margin:0 .22em;border-radius:50%;background:var(--coral)}
+
+/* ---- seccion que se expande ---- */
+.xp{position:relative;height:100vh;height:100dvh;background:var(--navy);overflow:hidden;isolation:isolate}
+.xp__frame{position:absolute;inset:0;clip-path:inset(22% 34% 22% 34% round 56px);will-change:clip-path}
+.xp__frame .media{position:absolute;inset:0}
+.xp__shade{position:absolute;inset:0;background:radial-gradient(80% 70% at 50% 55%,rgba(3,21,56,.2),rgba(3,21,56,.78)),linear-gradient(rgba(3,21,56,.55),transparent 35%,rgba(3,21,56,.7))}
+.xp__text{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(8px,2vh,22px);text-align:center;pointer-events:none}
+.xp__title{font-family:var(--f-display);font-weight:400;text-transform:uppercase;font-size:clamp(3.4rem,12vw,11.5rem);line-height:.92}
+.xp__title .xl{display:block;overflow:hidden;padding:.03em .08em}
+.xp__title .xl span{display:block;will-change:transform}
+.xp__title .xl:last-child{color:var(--coral)}
+.xp__brush{font-size:clamp(1.8rem,3.6vw,3rem);rotate:-3deg;will-change:transform,opacity}
+.nogsap .xp{height:auto;min-height:80vh}
+.nogsap .xp__frame{clip-path:none}
+
+/* ---- olas de la marca ---- */
+.waves{position:relative;height:clamp(70px,10vw,130px);overflow:hidden;background:var(--coral)}
+.waves svg{max-width:none;position:absolute;left:0;top:0;height:100%;width:200%;will-change:transform}
+
+/* ---- imprescindibles: scroll horizontal pineado ---- */
+.js-h .showcase{padding-bottom:0}
+.js-h .hstage{height:100vh;height:100dvh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;perspective:1500px;padding-bottom:20px}
+.js-h .rail{overflow:visible;scroll-snap-type:none;width:max-content;padding:20px calc(50vw - var(--cw)/2);transform-style:preserve-3d;will-change:transform}
+.js-h .card{scroll-snap-align:none;animation:none;will-change:transform;transform-origin:50% 60%}
+.js-h .card .media img,.js-h .card .media video{left:-10%;right:auto;width:120%;max-width:none}
+.js-h .circle{display:none}
+.js-h .rail__ctrl{gap:26px}
+.rail__bar{display:none;width:min(260px,40vw);height:3px;border-radius:3px;background:rgba(255,255,255,.16);overflow:hidden}
+.rail__bar i{display:block;height:100%;width:100%;background:var(--coral);transform:scaleX(0);transform-origin:0 50%}
+.js-h .rail__bar{display:block}
+
+/* ---- inclinacion 3D + brillo ---- */
+.tilt{position:relative;transform-style:preserve-3d;will-change:transform}
+.tilt::after{content:"";position:absolute;inset:6px;border-radius:28px;background:radial-gradient(420px circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.28),transparent 46%);opacity:0;transition:opacity .5s var(--ease);pointer-events:none;z-index:4;mix-blend-mode:soft-light}
+.tilt:hover::after{opacity:1}
+
+/* ---- parallax interno de fotos ---- */
+.px .media img,.px .media video{top:-8%;bottom:auto;height:116%;transform:translateY(var(--py,0%));will-change:transform}
+
+/* ---- chips: indicador deslizante ---- */
+.chips__row{position:relative}
+.chips__ind{position:absolute;top:0;bottom:0;left:0;width:0;border-radius:999px;background:var(--blue-deep);z-index:0;pointer-events:none}
+.chip{position:relative;z-index:1}
+.chip.on{background:transparent;color:#fff}
+.chip.on:hover{background:transparent}
+
+/* ---- cierre: tipografia gigante ---- */
+.closing__big{position:absolute;left:0;right:0;bottom:-.1em;z-index:-1;overflow:hidden;pointer-events:none;font-family:var(--f-display);font-size:clamp(9rem,34vw,34rem);line-height:.8;text-transform:uppercase;white-space:nowrap;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.22)}
+.closing__big span{display:block;width:max-content;will-change:transform}
+
+@media (prefers-reduced-motion:reduce){
+  .xp{height:auto;min-height:80vh}
+  .xp__frame{clip-path:none}
+  .mq__row{transform:none!important}
+  .pre{display:none!important}
+}
