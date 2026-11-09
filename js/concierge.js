@@ -267,6 +267,8 @@
     el.fab.focus({ preventScroll: true });
   }
 
+  window.LPAssistant = { ask: function (t) { if (!root) return; open(); sendText(t); } };
+
   function bind() {
     el.fab.addEventListener('click', function () { open(); });
     el.x.addEventListener('click', close);

@@ -26,3 +26,9 @@ Recomendado: 1080 px de alto (vertical 3:4 o 4:5 queda perfecto en las tarjetas)
 
 Para previsualizar un video sin copiar archivos: abrí la web con  ?studio  al final
 (http://localhost:4173/index.html?studio) y usá el botón "+ Video" sobre cada foto.
+
+
+MODELOS 3D (opcional)
+Si tenés un modelo 3D de un plato (archivo .glb), guardalo como assets/3d/<nombre-de-la-foto>.glb
+(ej: assets/3d/torre-sinaloense.glb). La ficha del plato lo muestra en 3D real y, en el celular, con realidad aumentada.
+Se pueden generar escaneando el plato con apps como Polycam o Luma AI.
