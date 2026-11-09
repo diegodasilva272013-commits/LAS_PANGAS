@@ -158,3 +158,10 @@
   .cg{grid-template-columns:repeat(2,minmax(0,1fr))}
   .cg__fab{overflow:hidden}
 }
+@media (max-width:380px){
+  .cg__fab{padding:0 8px 0 6px;gap:6px}
+  .cg__fab-ico{width:36px;height:36px}
+  .cg__fab-ico img{width:20px}
+  .cg__fab-t b{font-size:12.5px}
+  .cg__call{font-size:13.5px;gap:8px;padding:0 8px}
+}
