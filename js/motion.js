@@ -48,7 +48,7 @@
   ];
   const PH = window.LP.PHOTOS;
   $('#floats').innerHTML = FLOATS.map(f => `
-    <div class="float" style="width:${f.w}vw;top:${f.t};${f.l ? 'left:' + f.l : 'right:' + f.r_}">
+    <div class="float" style="--w:${f.w}vw;--t:${f.t};${f.l ? '--l:' + f.l + ';--r:auto' : '--r:' + f.r_ + ';--l:auto'}">
       <div class="float__s"><div class="media"><img src="assets/img/${f.s}.webp" alt="" decoding="async"></div></div>
     </div>`).join('');
 
@@ -229,7 +229,7 @@ void main(){
 
   /* ---------- 10. Foto que se expande a pantalla completa ---------- */
   gsap.timeline({ scrollTrigger: { trigger: '#xp', start: 'top top', end: '+=160%', pin: true, scrub: .7, anticipatePin: 1 } })
-    .fromTo('.xp__frame', { clipPath: 'inset(22% 34% 22% 34% round 56px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none', duration: .85 }, 0)
+    .fromTo('.xp__frame', { clipPath: innerWidth < 700 ? 'inset(27% 9% 27% 9% round 40px)' : 'inset(22% 34% 22% 34% round 56px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none', duration: .85 }, 0)
     .fromTo('.xp__frame .media img, .xp__frame .media video', { scale: 1.4 }, { scale: 1, ease: 'none', duration: .85 }, 0)
     .fromTo('.xp__shade', { opacity: 0 }, { opacity: 1, ease: 'none', duration: .85 }, 0)
     .fromTo('.xp__title .xl span', { yPercent: 115 }, { yPercent: 0, stagger: .12, ease: 'power3.out' }, .35)
@@ -254,7 +254,7 @@ void main(){
 
   /* ---------- 13. Imprescindibles: scroll horizontal fijo + 3D ---------- */
   const mmH = gsap.matchMedia();
-  mmH.add('(min-width: 901px)', () => {
+  mmH.add('(min-width: 1px)', () => {
     root.classList.add('js-h');
     const rail = $('#rail'), stage = $('#hstage'), cards = $$('.card', rail), n = cards.length;
     const getX = () => -(rail.scrollWidth - innerWidth);
