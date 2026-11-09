@@ -136,3 +136,25 @@
 .cg.is-open .cg__call{opacity:0;pointer-events:none}
 .cg__call:focus-visible{outline:2px solid #fff;outline-offset:2px}
 @media (max-width:560px){.cg__call{height:62px;padding:0 16px 0 14px}}
+
+/* celular: los dos botones simetricos, centrados y del mismo tamano */
+@media (max-width:560px){
+  .cg{left:max(14px,env(safe-area-inset-left));right:max(14px,env(safe-area-inset-right));display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .cg__call,.cg__fab{position:relative;right:auto;bottom:auto;width:100%;height:62px;margin:0;justify-content:center;align-items:center}
+  .cg__call{padding:0 12px;gap:10px;font-size:15px}
+  .cg__fab{padding:0 12px 0 8px;gap:10px}
+  .cg__fab-t{align-items:flex-start}
+  .cg__fab-t b{font-size:14.5px;line-height:1.1}
+  .cg__fab-ico{width:46px;height:46px}
+}
+@media (max-width:560px){
+  .cg__fab{padding:0 10px 0 8px;gap:8px}
+  .cg__fab-ico{width:42px;height:42px}
+  .cg__fab-ico img{width:23px}
+  .cg__fab-t b{font-size:14px;white-space:nowrap}
+  .cg__call{font-size:14px}
+}
+@media (max-width:560px){
+  .cg{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cg__fab{overflow:hidden}
+}
