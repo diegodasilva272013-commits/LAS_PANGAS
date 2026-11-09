@@ -26,7 +26,7 @@
     root = $(
       '<div class="cg" id="cg" data-st="idle" data-lenis-prevent>' +
         '<button class="cg__call" type="button" aria-label="Llamar por voz al asistente">' + ICON.phone + '<span>Llamar</span></button>' +
-        '<button class="cg__fab" type="button" aria-haspopup="dialog" aria-controls="cgPanel">' +
+        '<button class="cg__fab" type="button" aria-label="Reservar y pedir: abrir el asistente" aria-haspopup="dialog" aria-controls="cgPanel">' +
           '<span class="cg__fab-ico"><img src="assets/img/isotipo-blanco.png" alt="" width="26" height="18"></span>' +
           '<span class="cg__fab-t"><b>Reservar y pedir</b><small>Hablá o escribinos</small></span>' +
         '</button>' +
@@ -315,8 +315,22 @@
       '');
   }
 
+  /* los botones flotantes se apartan: al bajar, al llegar a la seccion final y con el panel cerrado */
+  function autoHide() {
+    var last = window.scrollY, away = false, end = false;
+    function apply() { root.classList.toggle('is-away', (away || end) && !state.open); }
+    window.addEventListener('scroll', function () {
+      var y = window.scrollY, d = y - last;
+      if (Math.abs(d) < 6) return;
+      away = d > 0 && y > 300; last = y; apply();
+    }, { passive: true });
+    var tgt = document.getElementById('visitanos');
+    if (tgt && 'IntersectionObserver' in window)
+      new IntersectionObserver(function (es) { end = es[0].isIntersecting; apply(); }, { threshold: .15 }).observe(tgt);
+  }
+
   function init() {
-    build(); bind();
+    build(); bind(); autoHide();
     root.classList.add('is-ready');
     addPageButtons();
   }

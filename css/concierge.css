@@ -165,3 +165,20 @@
   .cg__fab-t b{font-size:12.5px}
   .cg__call{font-size:13.5px;gap:8px;padding:0 8px}
 }
+
+/* ===== se apartan solos: al bajar, en la seccion final y con la ficha abierta ===== */
+.cg__call,.cg__fab{transition:transform .6s cubic-bezier(.32,.72,0,1),opacity .4s,box-shadow .6s}
+.cg.is-away .cg__call,.cg.is-away .cg__fab,.dv-open .cg__call,.dv-open .cg__fab{transform:translateY(26px) scale(.88);opacity:0;pointer-events:none}
+
+/* ===== celular: dos botones redondos y discretos, en el borde derecho ===== */
+@media (max-width:560px){
+  .cg{left:auto;right:max(14px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));
+    display:flex;flex-direction:column;align-items:flex-end;gap:10px;grid-template-columns:none}
+  .cg__call,.cg__fab{width:54px;height:54px;padding:0;border-radius:50%;justify-content:center;align-items:center;overflow:visible;gap:0;flex:none}
+  .cg__call span,.cg__fab-t{display:none}
+  .cg__call svg{width:22px;height:22px}
+  .cg__fab-ico{width:100%;height:100%;background:none}
+  .cg__fab-ico img{width:27px}
+  .cg__call{box-shadow:0 0 0 1px rgba(255,255,255,.25) inset,0 10px 24px -8px rgba(210,71,63,.7)}
+  .cg__fab{box-shadow:0 0 0 1px rgba(255,255,255,.18) inset,0 10px 24px -8px rgba(1,64,161,.8)}
+}
