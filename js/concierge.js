@@ -13,6 +13,7 @@
     send: '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
     table: '<svg viewBox="0 0 24 24"><path d="M4 9h16M7 9v10M17 9v10M3 9l1.5-4h15L21 9"/></svg>',
     bag: '<svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8zM9 8a3 3 0 0 1 6 0"/></svg>',
+    phone: '<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>',
     chat: '<svg viewBox="0 0 24 24"><path d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H10l-5 4v-4a2 2 0 0 1-1-2V6z"/></svg>'
   };
 
@@ -24,6 +25,7 @@
   function build() {
     root = $(
       '<div class="cg" id="cg" data-st="idle" data-lenis-prevent>' +
+        '<button class="cg__call" type="button" aria-label="Llamar por voz al asistente">' + ICON.phone + '<span>Llamar</span></button>' +
         '<button class="cg__fab" type="button" aria-haspopup="dialog" aria-controls="cgPanel">' +
           '<span class="cg__fab-ico"><img src="assets/img/isotipo-blanco.png" alt="" width="26" height="18"></span>' +
           '<span class="cg__fab-t"><b>Reservar y pedir</b><small>Hablá o escribinos</small></span>' +
@@ -66,6 +68,7 @@
     );
     document.body.appendChild(root);
     el.fab = root.querySelector('.cg__fab');
+    el.call = root.querySelector('.cg__call');
     el.x = root.querySelector('.cg__x');
     el.body = root.querySelector('.cg__body');
     el.hello = root.querySelector('.cg__hello');
@@ -271,6 +274,7 @@
 
   function bind() {
     el.fab.addEventListener('click', function () { open(); });
+    el.call.addEventListener('click', function () { open(); if (!state.voice) connect(true); });
     el.x.addEventListener('click', close);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && state.open) close(); });
     root.querySelectorAll('.cg__act').forEach(function (b) {
@@ -296,7 +300,8 @@
       var t = e.target.closest && e.target.closest('[data-cg]');
       if (!t) return;
       e.preventDefault();
-      open(t.getAttribute('data-cg') || undefined);
+      var k = t.getAttribute('data-cg');
+      if (k === 'llamar') { open(); if (!state.voice) connect(true); } else open(k || undefined);
     });
   }
 
@@ -305,8 +310,9 @@
     if (!cta || cta.querySelector('[data-cg]')) return;
     var arrow = '<i class="btn__dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></i>';
     cta.insertAdjacentHTML('afterbegin',
-      '<a class="btn btn--solid magnetic" href="#" data-cg="reserva"><span>Reservar mesa</span>' + arrow + '</a>' +
-      '<a class="btn btn--ghost magnetic" href="#" data-cg="pedido"><span>Hacer un pedido</span>' + arrow + '</a>');
+      '<a class="btn btn--solid magnetic" href="#" data-cg="llamar"><span>Llamar ahora</span>' + arrow + '</a>' +
+      '<a class="btn btn--ghost magnetic" href="#" data-cg="reserva"><span>Reservar mesa</span>' + arrow + '</a>' +
+      '');
   }
 
   function init() {
