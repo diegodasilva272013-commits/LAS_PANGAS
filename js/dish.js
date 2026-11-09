@@ -331,7 +331,7 @@
       });
     });
   }
-  function init() { markA11y(); videoButtons(); }
+  function init() { markA11y(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
   window.LPDish = { open: open, close: close };
 })();

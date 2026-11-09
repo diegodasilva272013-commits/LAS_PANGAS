@@ -1,13 +1,6 @@
 /* ===== Visor de platillos ===== */
 .media[data-slug]{cursor:pointer}
-.media[data-slug]::after{content:"Ver el plato";position:absolute;left:50%;bottom:14px;z-index:3;transform:translate(-50%,10px);opacity:0;
-  padding:8px 16px;border-radius:999px;font:600 12px/1 'Plus Jakarta Sans',sans-serif;letter-spacing:.04em;color:#fff;white-space:nowrap;
-  background:rgba(3,21,56,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 0 0 1px rgba(255,255,255,.22) inset;
-  transition:opacity .5s cubic-bezier(.32,.72,0,1),transform .5s cubic-bezier(.32,.72,0,1);pointer-events:none}
-.media[data-slug]:hover::after,.media[data-slug]:focus-visible::after{opacity:1;transform:translate(-50%,0)}
-@media (hover:none){.media[data-slug]::after{opacity:1;transform:translate(-50%,0);bottom:10px;padding:7px 13px;font-size:11px}}
 .media[data-slug]:focus-visible{outline:2px solid var(--coral,#F58A84);outline-offset:3px}
-.media[data-slug]{position:relative}
 
 .dv{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:20px;visibility:hidden;pointer-events:none;
   transition:visibility 0s .7s;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#fff}
@@ -91,20 +84,6 @@ html.dv-open{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.dv *,.dv__win,.dv__scrim{transition-duration:.01s!important;animation:none!important}}
 
 /* ===== Video del plato ===== */
-/* insignia en la foto de la carta */
-.media.has-video[data-slug]::after{content:"Ver video";opacity:1;transform:translate(-50%,0);padding:9px 16px 9px 38px;background:rgba(3,21,56,.78)
-  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5.5v13l11-6.5z' fill='%23fff'/%3E%3C/svg%3E") no-repeat 12px 50%/16px}
-.media.has-video[data-slug]:hover::after{background-color:rgba(210,71,63,.92)}
-
-/* boton dentro de la lista de la carta */
-.vbtn{display:inline-flex;align-items:center;gap:10px;margin-top:12px;padding:6px 18px 6px 6px;border:0;border-radius:999px;cursor:pointer;font:600 13px 'Plus Jakarta Sans',sans-serif;color:var(--ink,#0A2A6E);
-  background:rgba(17,91,212,.09);box-shadow:0 0 0 1px rgba(17,91,212,.22) inset;transition:background .4s,transform .5s cubic-bezier(.32,.72,0,1),color .3s}
-.vbtn i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(160deg,#1a6bf0,#0140A1);transition:transform .5s cubic-bezier(.32,.72,0,1)}
-.vbtn svg{width:13px;height:13px;fill:#fff;stroke:none;margin-left:2px}
-.vbtn:hover{background:var(--blue,#115BD4);color:#fff;transform:translateY(-2px)}
-.vbtn:hover i{transform:scale(1.1);background:#fff}.vbtn:hover svg{fill:#115BD4}
-.vbtn:focus-visible{outline:2px solid var(--coral-ink,#D2473F);outline-offset:3px}
-
 /* pestanas Video / Plato */
 .dv__tabs{position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:4px;padding:4px;border-radius:999px;
   background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 0 0 1px rgba(255,255,255,.18) inset}
